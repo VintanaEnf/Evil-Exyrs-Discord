@@ -42,8 +42,12 @@ async def on_message(message):
     if message.author == client.user:
         return
 
+    if message.content.startswith("link"):
+        await message.channel.send(keys.DISCORD_LINK)
+
     if message.content.startswith("Bard "):
-        await message.channel.send(Bard.response.result)
+        talk = userMessage.split('\"')[1]
+        await message.channel.send(Bard.talkShort(talk))
         return
     
 def correctThis(text):

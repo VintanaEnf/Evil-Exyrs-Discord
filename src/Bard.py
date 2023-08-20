@@ -1,8 +1,11 @@
+import google.generativeai as palm
+
 import sys
 sys.path.append('E:/keys')
 import keys
 
-import google.generativeai as palm
 palm.configure(api_key=keys.PALM)
 
-response = palm.generate_text(prompt="Hello!")
+def talkShort(message: str) -> str:
+    response = palm.generate_text(prompt=message)
+    return response.result;
