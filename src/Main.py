@@ -43,10 +43,10 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    if message.content.startswith("link"):
+    if message.content.startswith(f"{const.bot_prefix}link"):
         await message.channel.send(keys.DISCORD_LINK)
 
-    if message.content.startswith("$Bard "):
+    if message.content.startswith(f"{const.bot_prefix}Bard "):
         # talk = userMessage.split('\"')[1]
         talk=userMessage
         await message.channel.send(bard.talkLong(talk))
