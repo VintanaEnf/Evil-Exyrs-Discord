@@ -32,5 +32,5 @@ def setModels(name: str):
     print("Hello")
 
 def latexify(message: str) -> str:
-    a = "return the LaTeX code only of this message: " + message
+    a = "return the LaTeX code only of this message (no /begin and /end needed): " + message
     return talkShort(a)

@@ -1,7 +1,7 @@
 import discord
 import bard
 import const
-
+import os
 # ------------------------------------------------------------------
 #The location of keys in my machine:
 import sys
@@ -22,7 +22,7 @@ from textblob import TextBlob
 from discord.ext import commands
 
 client = discord.Client()
-
+clipboard = ""
 #This will run when the bot begins.
 @client.event
 async def on_ready():
@@ -46,17 +46,20 @@ async def on_message(message):
     if message.content.startswith("link"):
         await message.channel.send(keys.DISCORD_LINK)
 
-    if message.content.startswith("Bard "):
+    if message.content.startswith("$Bard "):
         # talk = userMessage.split('\"')[1]
         talk=userMessage
         await message.channel.send(bard.talkLong(talk))
         return
     
-    if message.content.startswith("latex "):
-        talk = userMessage.split('\"')[1]
-        await message.channel.send(bard.latexify(talk))
+    if message.content.startswith(f"{const.bot_prefix}latex"):
+        global clipboard
+        talk = userMessage.split('$')[1]
+        answer = bard.latexify(talk)
+        await message.channel.send(answer)
         return
     
+
 def correctThis(text):
     return TextBlob(text).correct()
 
