@@ -1,10 +1,11 @@
 import discord
-import Bard
+import bard
+import const
 
 # ------------------------------------------------------------------
 #The location of keys in my machine:
 import sys
-sys.path.append('E:/keys')
+sys.path.append(const.keys_location)
 import keys
 #
 # The keys.py contains variables holding API keys and Tokens.
@@ -46,8 +47,14 @@ async def on_message(message):
         await message.channel.send(keys.DISCORD_LINK)
 
     if message.content.startswith("Bard "):
+        # talk = userMessage.split('\"')[1]
+        talk=userMessage
+        await message.channel.send(bard.talkLong(talk))
+        return
+    
+    if message.content.startswith("latex "):
         talk = userMessage.split('\"')[1]
-        await message.channel.send(Bard.talkShort(talk))
+        await message.channel.send(bard.latexify(talk))
         return
     
 def correctThis(text):
