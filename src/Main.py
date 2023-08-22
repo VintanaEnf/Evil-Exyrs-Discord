@@ -1,10 +1,14 @@
 import discord
 import bard
+
+from textblob import TextBlob
+from discord.ext import commands
+
+import sys
 import const
-import os
+
 # ------------------------------------------------------------------
 #The location of keys in my machine:
-import sys
 sys.path.append(const.keys_location)
 import keys
 #
@@ -18,17 +22,13 @@ import keys
 # ------------------------------------------------------------------
 
 
-from textblob import TextBlob
-from discord.ext import commands
-
 client = discord.Client()
 clipboard = ""
 #This will run when the bot begins.
+print("The bot is NOW starting, please wait...")
 @client.event
 async def on_ready():
     print('logged in as {0.user}'.format(client))
-
-
 
 #receives message.
 @client.event
@@ -44,22 +44,18 @@ async def on_message(message):
         return
 
     if message.content.startswith(f"{const.bot_prefix}link"):
-        await message.channel.send(keys.DISCORD_LINK)
+        await message.channel.send(keys.DISCORD_INVITE)
 
-    if message.content.startswith(f"{const.bot_prefix}Bard "):
-        # talk = userMessage.split('\"')[1]
-        talk=userMessage
-        await message.channel.send(bard.talkLong(talk))
-        return
-    
-    if message.content.startswith(f"{const.bot_prefix}latex"):
-        global clipboard
-        talk = userMessage.split('$')[1]
-        answer = bard.latexify(talk)
+    if message.content.startswith(f"{const.bot_prefix}bard ") and const.feature_bard:
+        answer = bard.talkLong(userMessage.split(f'{const.bot_prefix}bard')[1])+""
         await message.channel.send(answer)
         return
     
-
+    if message.content.startswith(f"{const.bot_prefix}latex") and const.feature_bard:
+        answer = bard.latexify(userMessage.split('$')[1])
+        await message.channel.send(answer)
+        return
+    
 def correctThis(text):
     return TextBlob(text).correct()
 

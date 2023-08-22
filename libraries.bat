@@ -4,10 +4,10 @@ echo This will install all of the packages required for the bot.
 
 Packages:
     pip install discord
-    ::For creating Discord bots.
+    @REM For creating Discord bots.
 
     pip install google-generativeai
-    ::Palm API.
+    @REM Palm API.
 
     pip install textblob
-    ::Library for correcting sentences.
+    @REM Library for correcting sentences.
