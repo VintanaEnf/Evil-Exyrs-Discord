@@ -6,4 +6,6 @@ bot_prefix = '$'
 # bot features can be disabled or enabled here:
 
 feature_bard = True
+feature_spyfall = True
+feature_wolframalpha = True
 # bard also includes the latex command.
