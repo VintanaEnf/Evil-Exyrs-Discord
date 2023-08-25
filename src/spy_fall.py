@@ -17,7 +17,6 @@ class spyFall:
 
     def __init__(self, game_host, discordserver):
         self.game_host = game_host
-        self.players.append(game_host)
         self.discordserver = discordserver
 
         absolute_path = os.path.abspath(__file__)
@@ -76,7 +75,7 @@ class spyFall:
         numberofplayers = len(self.players)
         self.spy = random.randint(0, numberofplayers-1)
         print(f"map is {self.currentgamemap[self.chosenmap]} and the spy is {self.players[self.spy]}")
-        return self.players[self.spy]
+        return self.players[random.randint(0, numberofplayers-1)]
 
     def getrole(self, ID):
         if ID == self.players[self.spy]:
@@ -90,3 +89,6 @@ class spyFall:
             return "Guess the location"
         else:
             return self.chosenmap
+        
+    def clearplayers(self):
+        self.players.clear

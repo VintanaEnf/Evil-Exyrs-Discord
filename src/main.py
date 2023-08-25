@@ -62,7 +62,7 @@ async def on_message(message):
         embed.add_field(name=f"{const.bot_prefix}bard <message>", value="Calls Google's LLM -> PaLM 2.", inline=False)
         embed.add_field(name=f"{const.bot_prefix}latex <message>", value="Calls Google's LLM and translates the message into LaTeX code.", inline=False)
         embed.add_field(name=f"{const.bot_prefix}math <math equation>", value="Evaluates the mathematical expression, expressions in LaTeX is recommended.", inline=False)
-        embed.add_field(name=f"{const.bot_prefix}spyfall <parameter>", value=f"Starts a game of Spyfall. (**quick start**: {const.bot_prefix}spyfall game). \n\n **possible spyfall parameters**: \"game\", \"start\", \"mkmap <map name> <role1> <role2>...\", rmmap <map name>, guess", inline=False)
+        embed.add_field(name=f"{const.bot_prefix}spyfall <parameter>", value=f"Starts a game of Spyfall. (**quick start**: {const.bot_prefix}spyfall game). \n\n **possible spyfall parameters**: \"game\", \"start\", \"mkmap <map name> <role1> <role2>...\", \"rmmap <map name>\", \"reveal\"", inline=False)
         await message.channel.send(embed=embed)
         return
 
@@ -91,7 +91,7 @@ async def on_message(message):
         global process_dictionary
         if message.content == f"{const.bot_prefix}spyfall game":
             embed = discord.Embed(title="Spyfall", description=f"A game of spyfall has been started by {userName}", color=discord.Color.blue())
-            embed.add_field(name="How to play?", value=" 1. React 🕵️ to join.\n 2. A location and role will be sent to you in private. \n 3. The player who was recently asked is the  one asking next. \n 4. The spy will need to guess your location in order for him to win. \n 5. $spyfall start", inline=False)
+            embed.add_field(name="How to play?", value=" React 🕵️ to join.\n 1. A location and role will be sent to you in private. \n 2. Players take turns asking each other. \n 4. The spy will need to guess your location in order for the spy to win. \n 5. $spyfall start", inline=False)
             temp.spyfall_game = await message.channel.send(embed=embed)
             await temp.spyfall_game.add_reaction("🕵️")
             process_dictionary.update({message.guild : spyFall(message.author.id, message.guild)})
@@ -100,13 +100,14 @@ async def on_message(message):
         if message.content == f"{const.bot_prefix}spyfall start":
             spyfall = process_dictionary[message.guild]
             play : list = spyfall.showplayers()
-            await message.channel.send(f"debug, the spy is: {client.get_user(spyfall.start())}")
+            await message.channel.send(f"**{client.get_user(spyfall.start())}** is the one asking first.")
             for i in play:
+                embed = discord.Embed(title="🕵🏻 SpyFall - Evil Exyrs Bot", description=f"Here is the map and role for \n the SpyFall game at **{message.guild}**.", color=discord.Color.red())
                 user = client.get_user(i)
-                await user.send("Welcome to SpyFall")
                 role = spyfall.getrole(i)
-                await user.send(f"**{spyfall.getmap(role)}**")
-                await user.send(f"Your role is: {role}")
+                embed.add_field(name=f"---MAP---", value=f"{spyfall.getmap(role)}", inline=False)
+                embed.add_field(name=f"---ROLE---", value=f"{role}", inline=False)
+                await user.send(embed = embed)
             return
         
         if message.content == f"{const.bot_prefix}spyfall maps":
@@ -146,9 +147,15 @@ async def on_message(message):
             return
 
         if message.content.startswith(f"{const.bot_prefix}spyfall rmmap "):
-            array = userMessage.split(" ")
+            array = userMessage.split("rmmap ")[1]
             spyfall = process_dictionary[message.guild]
-            await message.channel.send(f"Successfully removed **{array[2]}** containing **{spyfall.removemap(array[2])}** in maps list.")
+            await message.channel.send(f"Successfully removed **{array}** containing **{spyfall.removemap(array)}** in maps list.")
+            return
+
+        if message.content == f"{const.bot_prefix}spyfall reveal":
+            spyfall = process_dictionary[message.guild]
+            await message.channel.send(f"The spy is **{client.get_user(spyfall.players[spyfall.spy])}**.")
+            spyfall.clearplayers()
             return
 
 @client.event
