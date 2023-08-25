@@ -160,7 +160,6 @@ async def on_reaction_add(reaction, user):
         spyfall = process_dictionary[user.guild]
         if not spyfall.addplayer(user.id):
             await reaction.message.channel.send(f"{user.name} is already in the Spyfall game.")
-            await reaction.message.channel.send(user.guild)
             return
         else:
             await reaction.message.channel.send(f"{user.name} joined the Spyfall game.")
