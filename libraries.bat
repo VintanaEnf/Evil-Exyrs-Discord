@@ -11,3 +11,9 @@ Packages:
 
     pip install textblob
     @REM Library for correcting sentences.
+
+    pip install sympy
+    @REM Mathematics
+
+    pip install latex2sympy
+    @REM turns sympy to maths.

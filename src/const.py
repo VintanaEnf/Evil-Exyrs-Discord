@@ -8,4 +8,5 @@ bot_prefix = '$'
 feature_bard = True
 feature_spyfall = True
 feature_wolframalpha = True
+feature_math = True
 # bard also includes the latex command.
