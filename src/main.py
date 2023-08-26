@@ -10,7 +10,6 @@ import sympy as maths
 import sys
 import const
 import temp
-import subprocess
 
 #todo: turn this into keys.json
 # ------------------------------------------------------------------
@@ -29,7 +28,6 @@ import keys
 
 client = discord.Client(intents=discord.Intents.all())
 
-tree = app_commands.CommandTree(client)
 
 #this dictionary will contain all of the processes in each guild.
 process_dictionary = {}
@@ -58,11 +56,14 @@ async def on_message(message):
         await message.channel.send(keys.DISCORD_INVITE)
 
     if (message.content == (f"{const.bot_prefix}help")) and const.feature_bard:
-        embed = discord.Embed(title="Evil Exyrs / Help", description="This discord bot is Exyrs' personal discord bot. \n\n **note**: some commands may not work since features can be enabled or disabled.", color=discord.Color.red())
+        embed = discord.Embed(title="Evil Exyrs / Help", description="This discord bot is Exyrs' personal discord bot." 
+                              "\n\n **note**: some commands may not work since features can be enabled or disabled.", color=discord.Color.red())
         embed.add_field(name=f"{const.bot_prefix}bard <message>", value="Calls Google's LLM -> PaLM 2.", inline=False)
         embed.add_field(name=f"{const.bot_prefix}latex <message>", value="Calls Google's LLM and translates the message into LaTeX code.", inline=False)
         embed.add_field(name=f"{const.bot_prefix}math <math equation>", value="Evaluates the mathematical expression, expressions in LaTeX is recommended.", inline=False)
-        embed.add_field(name=f"{const.bot_prefix}spyfall <parameter>", value=f"Starts a game of Spyfall. (**quick start**: {const.bot_prefix}spyfall game). \n\n **possible spyfall parameters**: \"game\", \"start\", \"mkmap <map name> <role1> <role2>...\", \"rmmap <map name>\", \"reveal\"", inline=False)
+        embed.add_field(name=f"{const.bot_prefix}spyfall <parameter>", value=f"Starts a game of Spyfall. (**quick start**: {const.bot_prefix}spyfall game)." 
+                        "\n\n **possible spyfall parameters**: \"game\", \"start\"," 
+                        "\"mkmap <map name> <role1> <role2>...\", \"rmmap <map name>\", \"reveal\"", inline=False)
         await message.channel.send(embed=embed)
         return
 
@@ -88,13 +89,27 @@ async def on_message(message):
 
     #spyfall game command specific.
     if message.content.startswith(f"{const.bot_prefix}spyfall") and const.feature_spyfall:
+
         global process_dictionary
+
+        #This part initializes the game.
         if message.content == f"{const.bot_prefix}spyfall game":
+
             embed = discord.Embed(title="Spyfall", description=f"A game of spyfall has been started by {userName}", color=discord.Color.blue())
-            embed.add_field(name="How to play?", value=" React 🕵️ to join.\n 1. A location and role will be sent to you in private. \n 2. Players take turns asking each other. \n 4. The spy will need to guess your location in order for the spy to win. \n 5. $spyfall start", inline=False)
-            temp.spyfall_game = await message.channel.send(embed=embed)
-            await temp.spyfall_game.add_reaction("🕵️")
-            process_dictionary.update({message.guild : spyFall(message.author.id, message.guild)})
+            embed.add_field(name="How to play?", value="* React 🕵️ to join.\n 1. A location and role will be sent to you in private." 
+                            "\n 2. Players take turns asking each other. \n 4. The spy will need to guess your location in order for the spy to win." 
+                            "\n 5. $spyfall start", inline=False)
+            
+            #############
+            temporaryembed = await message.channel.send(embed=embed)
+            await temporaryembed.add_reaction("🕵️")
+            if message.guild in process_dictionary:
+                process_dictionary.pop(message.guild)
+
+            #TRIAL
+            gameprocess = spyFall(message.author.id, message.guild)
+            process_dictionary[message.guild] = gameprocess
+            del gameprocess
             return
         
         if message.content == f"{const.bot_prefix}spyfall start":
@@ -118,7 +133,9 @@ async def on_message(message):
             for keya in currentgamemaps:
                 cmaps = f"{cmaps}* {keya}\n"
             embed.add_field(name="Maps:", value=cmaps, inline=False)
-            temp.spyfall_game = await message.channel.send(embed=embed)
+
+            ###########
+            await message.channel.send(embed=embed)
             return
         
         if message.content == f"{const.bot_prefix}spyfall players":
@@ -129,7 +146,9 @@ async def on_message(message):
             for keya in currentplayers:
                 cmaps = f"{cmaps}* {client.get_user(keya)}\n"
             embed.add_field(name="Players:", value=cmaps, inline=False)
-            temp.spyfall_game = await message.channel.send(embed=embed)
+
+            ########
+            await message.channel.send(embed=embed)
             return
         
         if message.content.startswith(f"{const.bot_prefix}spyfall mkmap "):
@@ -156,8 +175,15 @@ async def on_message(message):
             spyfall = process_dictionary[message.guild]
             await message.channel.send(f"The spy is **{client.get_user(spyfall.players[spyfall.spy])}**.")
             spyfall.clearplayers()
+            await message.channel.send(f"The spyfall players still ingame after clear is **{spyfall.showplayers()}**.")
             return
 
+    if message.content == f"{const.bot_prefix}debug":
+            spyfall = process_dictionary[message.guild]
+            await message.channel.send(f"The process dictionary contains:")
+            for i in process_dictionary:
+                await message.channel.send(i)
+            return
 @client.event
 async def on_reaction_add(reaction, user):
     global process_dictionary
@@ -171,12 +197,6 @@ async def on_reaction_add(reaction, user):
         else:
             await reaction.message.channel.send(f"{user.name} joined the Spyfall game.")
             return
-
-
-
-@tree.command(name="hello", description="Says hello")
-async def hello(interaction):
-    await interaction.response.send("Hello!")
 
 def correctThis(text):
     return TextBlob(text).correct()

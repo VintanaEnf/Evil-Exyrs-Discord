@@ -3,8 +3,9 @@ import os
 import random
 
 class spyFall:
+    
     game_host = ""
-    players: list = []
+    players = []
     discordserver = ""
     default = {
         "Hospital" : ["Doctor", "Nurse", "spy"],
@@ -92,3 +93,4 @@ class spyFall:
         
     def clearplayers(self):
         self.players.clear
+        return
