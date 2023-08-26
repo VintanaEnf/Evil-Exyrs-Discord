@@ -1,15 +1,21 @@
 import discord
 from discord import app_commands
-import bard
-from spy_fall import spyFall
-
-from textblob import TextBlob
 from discord.ext import commands
-import sympy as maths
-
-import sys
 import const
-import temp
+import sys
+
+if const.feature_bard:
+    import bard
+
+if const.feature_spyfall:
+    from spy_fall import spyFall
+
+if const.feature_textblob:
+    from textblob import TextBlob
+
+if const.feature_math:
+    import sympy as maths
+
 
 #todo: turn this into keys.json
 # ------------------------------------------------------------------
