@@ -6,7 +6,7 @@
 * Maps are fully customizable, You can add fictional places from your favorite games and shows or add places that you and your friends can relate.
   
    * use this code to make a create a new map: **%spyfall mkmap** "MAP NAME", "MAP ROLE1", "MAP ROLE2"...
-   * use this code to remove a map: **%spyfall rmmap "MAP NAME"
+   * use this code to remove a map: **%spyfall rmmap** "MAP NAME"
      
 * The bot can handle multiple games of spyfall from different servers.
 
