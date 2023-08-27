@@ -1,5 +1,5 @@
 # Evil Exyrs Discord
- The source code for my Evil Exyrs Discord Bot.
+ The source code for my Evil Exyrs Discord Bot. This project is mainly for fun.
 
 ## Screenshots
 ![image](https://github.com/VintanaEnf/Evil-Exyrs-Discord/assets/104513214/993217cb-2e4b-4ed7-838e-412d02ba5a2d)
