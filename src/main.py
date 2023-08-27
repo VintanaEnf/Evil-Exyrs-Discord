@@ -113,9 +113,7 @@ async def on_message(message):
                 process_dictionary.pop(message.guild)
 
             #TRIAL
-            gameprocess = spyFall(message.author.id, message.guild)
-            process_dictionary[message.guild] = gameprocess
-            del gameprocess
+            process_dictionary[message.guild] = spyFall(message.author.id, message.guild)
             return
         
         if message.content == f"{const.bot_prefix}spyfall start":
@@ -139,8 +137,6 @@ async def on_message(message):
             for keya in currentgamemaps:
                 cmaps = f"{cmaps}* {keya}\n"
             embed.add_field(name="Maps:", value=cmaps, inline=False)
-
-            ###########
             await message.channel.send(embed=embed)
             return
         
@@ -152,8 +148,6 @@ async def on_message(message):
             for keya in currentplayers:
                 cmaps = f"{cmaps}* {client.get_user(keya)}\n"
             embed.add_field(name="Players:", value=cmaps, inline=False)
-
-            ########
             await message.channel.send(embed=embed)
             return
         
@@ -182,6 +176,7 @@ async def on_message(message):
             await message.channel.send(f"The spy is **{client.get_user(spyfall.players[spyfall.spy])}**.")
             spyfall.clearplayers()
             await message.channel.send(f"The spyfall players still ingame after clear is **{spyfall.showplayers()}**.")
+            del process_dictionary[message.guild]
             return
 
     if message.content == f"{const.bot_prefix}debug":
@@ -192,17 +187,26 @@ async def on_message(message):
             return
 @client.event
 async def on_reaction_add(reaction, user):
-    global process_dictionary
     constraints: bool =  user != client.user and isinstance(reaction.message.channel, discord.TextChannel)
     constraints = constraints and reaction.message.author == client.user and reaction.emoji == "🕵️"
     if constraints:
+        global process_dictionary
         spyfall = process_dictionary[user.guild]
         if not spyfall.addplayer(user.id):
-            await reaction.message.channel.send(f"{user.name} is already in the Spyfall game.")
+            await reaction.message.channel.send(f"{user.name} is already in the game.")
             return
         else:
             await reaction.message.channel.send(f"{user.name} joined the Spyfall game.")
             return
+
+@client.event
+async def on_reaction_remove(reaction, user):
+    constraints = user != client.user and isinstance(reaction.message.channel, discord.TextChannel)
+    constraints = constraints and reaction.message.author == client.user and reaction.emoji == "🕵️"    
+    if constraints and spyfall.removeplayer(user.id):
+        spyfall = process_dictionary[user.guild]
+        await reaction.message.channel.send(f"{user.name} left the Spyfall game.")
+        return
 
 def correctThis(text):
     return TextBlob(text).correct()

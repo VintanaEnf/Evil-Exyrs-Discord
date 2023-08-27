@@ -18,8 +18,9 @@ class spyFall:
 
     def __init__(self, game_host, discordserver):
         self.game_host = game_host
+        self.players = []
+        self.players.append(game_host)
         self.discordserver = discordserver
-
         absolute_path = os.path.abspath(__file__)
         game_path = os.path.join(os.path.dirname(absolute_path), f"data/spy_fall/{self.discordserver}.json")
 
@@ -50,13 +51,13 @@ class spyFall:
     def addplayer(self, userName) -> bool:
         for i in self.players:
             if(i == userName):
-                print("Spyfall class: User is already in game.")
+                print("Spyfall class: Player already in game.")
                 return False
             
         self.players.append(userName)
         print(f"Spyfall class: {userName} is successfully added.")
         return True
-    
+
     def removemap(self, map):
         mapname = self.currentgamemap.pop(map)
         self.write()
@@ -92,5 +93,14 @@ class spyFall:
             return self.chosenmap
         
     def clearplayers(self):
-        self.players.clear
+        self.players.clear()
         return
+    
+    def removeplayer(self, user):
+        if user in self.players:
+            self.players.remove(user)
+            return True
+        return False
+    
+    def __del__(self):
+        return "The game of spyfall has been destroyed."
