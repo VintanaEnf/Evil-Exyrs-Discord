@@ -7,7 +7,7 @@
    * **Quick start:** %spyfall game
    * use this code to make a create a new map: **%spyfall mkmap** "MAP NAME", "MAP ROLE1", "MAP ROLE2"...
    * use this code to remove a map: **%spyfall rmmap** "MAP NAME"
-* The bot can handle multiple games of spyfall from different servers.
+* The bot can handle unique games of spyfall from different servers.
 
 ## Screenshots
 ![image](https://github.com/VintanaEnf/Evil-Exyrs-Discord/assets/104513214/993217cb-2e4b-4ed7-838e-412d02ba5a2d)
