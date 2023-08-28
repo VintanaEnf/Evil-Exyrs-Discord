@@ -3,6 +3,7 @@ from discord import app_commands
 from discord.ext import commands
 import const
 import sys
+import os
 
 if const.feature_bard:
     import bard
@@ -48,11 +49,12 @@ async def on_ready():
 #receives message.
 @client.event
 async def on_message(message):
+    global process_dictionary
 
     #this line breaks up the message as userName and userMessage
     userName = str(message.author)
     userMessage = str(message.content)
-    print(f'{userName} : {userMessage}')
+    print(f'{userName} in {message.guild}: {userMessage}')
 
     #This line will ignore the messages of itself.
     if message.author == client.user:
@@ -62,14 +64,14 @@ async def on_message(message):
         await message.channel.send(keys.DISCORD_INVITE)
 
     if (message.content == (f"{const.bot_prefix}help")) and const.feature_bard:
-        embed = discord.Embed(title="Evil Exyrs / Help", description="This discord bot is Exyrs' personal discord bot." 
+        embed = discord.Embed(title="Evil Exyrs / Help", description="These are the commands available for this bot." 
                               "\n\n **note**: some commands may not work since features can be enabled or disabled.", color=discord.Color.red())
-        embed.add_field(name=f"{const.bot_prefix}bard <message>", value="Calls Google's LLM -> PaLM 2.", inline=False)
-        embed.add_field(name=f"{const.bot_prefix}latex <message>", value="Calls Google's LLM and translates the message into LaTeX code.", inline=False)
-        embed.add_field(name=f"{const.bot_prefix}math <math equation>", value="Evaluates the mathematical expression, expressions in LaTeX is recommended.", inline=False)
-        embed.add_field(name=f"{const.bot_prefix}spyfall <parameter>", value=f"Starts a game of Spyfall. (**quick start**: {const.bot_prefix}spyfall game)." 
+        # embed.add_field(name=f"{const.bot_prefix}math <math equation>", value="Evaluates the mathematical expression, expressions in LaTeX is recommended.", inline=False)
+        embed.add_field(name=f"🕵🏻 {const.bot_prefix}spyfall <parameter>", value=f"Starts a game of Spyfall. (**quick start**: {const.bot_prefix}spyfall game)." 
                         "\n\n **possible spyfall parameters**: \"game\", \"start\"," 
                         "\"mkmap <map name> <role1> <role2>...\", \"rmmap <map name>\", \"reveal\"", inline=False)
+        embed.add_field(name=f"🤖 {const.bot_prefix}bard <message>", value="Calls Google's LLM -> PaLM 2.", inline=True)
+        embed.add_field(name=f"🧮 {const.bot_prefix}latex <message>", value="Calls Google's LLM and asks the model to translate the message into LaTeX code.", inline=True)
         await message.channel.send(embed=embed)
         return
 
@@ -91,6 +93,8 @@ async def on_message(message):
         await message.channel.send(result)
         return
     
+
+
     #todo update spyfall
 
     #spyfall game command specific.
@@ -112,7 +116,6 @@ async def on_message(message):
             if message.guild in process_dictionary:
                 process_dictionary.pop(message.guild)
 
-            #TRIAL
             process_dictionary[message.guild] = spyFall(message.author.id, message.guild)
             return
         
@@ -121,12 +124,20 @@ async def on_message(message):
             play : list = spyfall.showplayers()
             await message.channel.send(f"**{client.get_user(spyfall.start())}** is the one asking first.")
             for i in play:
-                embed = discord.Embed(title="🕵🏻 SpyFall - Evil Exyrs Bot", description=f"Here is the map and role for \n the SpyFall game at **{message.guild}**.", color=discord.Color.red())
+                embed = discord.Embed(title="🕵🏻 SpyFall - Evil Exyrs Bot", description=f"Here is the map and role for \n the SpyFall game at **{message.guild}**.\n", color=discord.Color.red())
                 user = client.get_user(i)
                 role = spyfall.getrole(i)
-                embed.add_field(name=f"---MAP---", value=f"{spyfall.getmap(role)}", inline=False)
-                embed.add_field(name=f"---ROLE---", value=f"{role}", inline=False)
-                await user.send(embed = embed)
+                embed.add_field(name=f"MAP:", value=f"```{spyfall.getmap(role)}```", inline=True)
+                embed.add_field(name=f"ROLE:", value=f"```{role}```", inline=True)
+                embed2 = discord.Embed(title="🕵🏻 SpyFall - Evil Exyrs Bot", description=f"Here is the map and role for \n the SpyFall game at **{message.guild}**.\n", color=discord.Color.red())
+                try:
+                    await user.send(embed = embed)
+                except:
+                    embed2.add_field(name=f"Failed to send the private message for {user}", value=f"Please only reveal this map and role if you are {user}", inline=True)
+                    embed2.add_field(name=f"MAP:", value=f"||```{spyfall.getmap(role)}```||", inline=False)
+                    embed2.add_field(name=f"ROLE:", value=f"||```{role}```||", inline=False)
+                    await message.channel.send(embed = embed2)
+
             return
         
         if message.content == f"{const.bot_prefix}spyfall maps":
@@ -178,13 +189,30 @@ async def on_message(message):
             await message.channel.send(f"The spyfall players still ingame after clear is **{spyfall.showplayers()}**.")
             del process_dictionary[message.guild]
             return
-
-    if message.content == f"{const.bot_prefix}debug":
+        
+        if message.content.startswith(f"{const.bot_prefix}spyfall profile new "):
             spyfall = process_dictionary[message.guild]
-            await message.channel.send(f"The process dictionary contains:")
-            for i in process_dictionary:
-                await message.channel.send(i)
+            nameprof = userMessage.split("profile new ")
+            spyfall.newprofile(nameprof[1])
+            await message.channel.send(f"{nameprof[1]} profile successfully created.")
             return
+        
+        if message.content.startswith(f"{const.bot_prefix}spyfall profile change "):
+            spyfall = process_dictionary[message.guild]
+            try:
+                nameprof = userMessage.split("profile change ")
+                spyfall.changeprofile(nameprof[1])
+                await message.channel.send(f"Successfully switched to {nameprof[1]}.")
+            except:
+                await message.channel.send(f"Profile does not exist.")
+            return
+
+    if message.content == f"{const.bot_prefix}test":
+            embed = discord.Embed(title="Test photo", description=f"https://tenor.com/view/baka-anime-gif-22001672", color=discord.Color.blue())
+            await message.channel.send(embed = embed)
+            await message.channel.send('https://tenor.com/view/baka-anime-gif-22001672')
+            return
+    
 @client.event
 async def on_reaction_add(reaction, user):
     constraints: bool =  user != client.user and isinstance(reaction.message.channel, discord.TextChannel)
@@ -203,8 +231,8 @@ async def on_reaction_add(reaction, user):
 async def on_reaction_remove(reaction, user):
     constraints = user != client.user and isinstance(reaction.message.channel, discord.TextChannel)
     constraints = constraints and reaction.message.author == client.user and reaction.emoji == "🕵️"    
+    spyfall = process_dictionary[user.guild]
     if constraints and spyfall.removeplayer(user.id):
-        spyfall = process_dictionary[user.guild]
         await reaction.message.channel.send(f"{user.name} left the Spyfall game.")
         return
 
