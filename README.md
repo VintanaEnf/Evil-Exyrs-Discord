@@ -10,9 +10,9 @@
 **note:** The bot can handle unique games of spyfall from different servers.
 ### Add or remove maps in your SpyFall game.
 * Maps are fully customizable, You can add fictional places from your favorite games and shows or add places that you and your friends can relate.
-   * Create a new map: ```**%spyfall mkmap** "MAP NAME", "MAP ROLE1", "MAP ROLE2"...```
-      * Example: ```**%spyfall mkmap** Train, Passenger, Cashier, Train Operator, Guard```
-   * Remove a map: ```**%spyfall rmmap** "MAP NAME"```
+   * Create a new map: **%spyfall mkmap** "MAP NAME", "MAP ROLE1", "MAP ROLE2"...
+      * Example: ```%spyfall mkmap Train, Passenger, Cashier, Train Operator, Guard```
+   * Remove a map: **%spyfall rmmap** "MAP NAME"
       * Example: ```%spyfall rmmap Train```
 ### Create multiple map profiles in your server.
 * The bot supports multiple map profiles; You can categorize your collection of places if you want to.
