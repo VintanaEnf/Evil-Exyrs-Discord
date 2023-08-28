@@ -19,8 +19,9 @@ Maps are fully customizable, You can add fictional places from your favorite gam
     * Example: ```%spyfall rmmap Train```
 
 The bot supports multiple map profiles; You can categorize your collection of places if you want to.
-   *  ```**%spyfall profile new** "NEW PROFILE NAME"``` - creates a new profile.
-   *  ```**%spyfall profile switch** "PROFILE NAME TO SWITCH TO"``` - switches to another profile.
+   *  ```%spyfall profile new mapcollection``` - creates a new profile with the "mapcollection" name.
+   *  ```%spyfall profile switch mapcollection``` - switches to the new profile.
+   *  ```%spyfall profile switch default``` to go back to the original profile.
 ## Screenshots
 ![image](https://github.com/VintanaEnf/Evil-Exyrs-Discord/assets/104513214/993217cb-2e4b-4ed7-838e-412d02ba5a2d)
 ![image](https://github.com/VintanaEnf/Evil-Exyrs-Discord/assets/104513214/7fbcfa5f-8749-43ec-a16f-42ffcfa30396)
