@@ -13,10 +13,10 @@ Play SpyFall with your friends; Here is how to get started:
 
 
 Maps are fully customizable, You can add fictional places from your favorite games and shows or add places that you and your friends can relate.
- * Create a new map: **%spyfall mkmap** "MAP NAME", "MAP ROLE1", "MAP ROLE2"...
-    * Example: ```%spyfall mkmap Train, Passenger, Cashier, Train Operator, Guard```
+ * Create a new map: **%spyfall mkmap** <MAP NAME\>, <MAP ROLE1\>, <MAP ROLE2\>...
+    * **Example:** ```%spyfall mkmap Train, Passenger, Cashier, Train Operator, Guard```
  * Remove a map: **%spyfall rmmap** "MAP NAME"
-    * Example: ```%spyfall rmmap Train```
+    * **Example:** ```%spyfall rmmap Train```
 
 The bot supports multiple map profiles; You can categorize your collection of places if you want to.
    *  ```%spyfall profile new mapcollection``` - creates a new profile with the "mapcollection" name.
