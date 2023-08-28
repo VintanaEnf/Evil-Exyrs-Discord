@@ -12,7 +12,7 @@ Play SpyFall with your friends; Here is how to get started:
 **note:** The bot can handle unique games of spyfall from different servers.
 
 
-Maps are fully customizable, You can add fictional places from your favorite games and shows or add places that you and your friends can relate.
+Maps are fully customizable, You can add fictional places from your favorite games and shows or add places that you and your friends can relate to.
  * Create a new map: **%spyfall mkmap** <map name\>, <role 1\>, <role 2\>...
     * **Example:** ```%spyfall mkmap Train, Passenger, Cashier, Train Operator, Guard```
  * Remove a map: **%spyfall rmmap** <map name\>
