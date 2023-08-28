@@ -6,6 +6,7 @@
    * **Quick start:** %spyfall game
    * **Emote '🕵🏻' to the bot's message to join.
    * **Begin:** %spyfall start
+ 
    * **End the game and reveal the spy using:** %spyfall reveal
 **note:** The bot can handle unique games of spyfall from different servers.
 ### Add or remove maps in your SpyFall game.
