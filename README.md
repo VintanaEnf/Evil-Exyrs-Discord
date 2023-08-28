@@ -6,6 +6,7 @@ Play SpyFall with your friends; Here is how to get started:
    * ```%spyfall game``` - creates a new game of spyfall in your server.
    * Emote '🕵🏻' to the bot's message to join.
    * ```%spyfall start``` - begins the spyfall game; This will send a private message with the player's role and map.
+   * ```%spyfall maps``` - lists the current map collection.
    * ```%spyfall reveal``` - Ends the game and reveals the spy.
 
 
