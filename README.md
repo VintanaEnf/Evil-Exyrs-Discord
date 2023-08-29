@@ -23,6 +23,8 @@ The bot supports multiple map profiles; You can categorize your collection of pl
    *  ```%spyfall profile new mapcollection``` - creates a new profile with the "mapcollection" name.
    *  ```%spyfall profile switch mapcollection``` - switches to the new profile.
    *  ```%spyfall profile switch default``` to go back to the original profile.
+   *  ```%spyfall profile list``` - lists the profiles in the server.
+   *  ```%spyfall profile delete mapcollection``` - deletes the new profile.
 ## Screenshots
 ![image](https://github.com/VintanaEnf/Evil-Exyrs-Discord/assets/104513214/993217cb-2e4b-4ed7-838e-412d02ba5a2d)
 ![image](https://github.com/VintanaEnf/Evil-Exyrs-Discord/assets/104513214/7fbcfa5f-8749-43ec-a16f-42ffcfa30396)
