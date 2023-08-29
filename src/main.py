@@ -47,6 +47,7 @@ async def on_ready():
     print('logged in as {0.user}'.format(client))
 
 #receives message.
+
 @client.event
 async def on_message(message):
     global process_dictionary
@@ -143,7 +144,7 @@ async def on_message(message):
         if message.content == f"{const.bot_prefix}spyfall maps":
             spyfall = process_dictionary[message.guild]
             currentgamemaps = spyfall.maps()
-            embed = discord.Embed(title="Spyfall Map Collection", description=f"All maps created in {message.guild}.", color=discord.Color.blue())
+            embed = discord.Embed(title="Current Maps List / SpyFall", description=f"Maps list created in {message.guild}.", color=discord.Color.blue())
             cmaps :str = ""
             for keya in currentgamemaps:
                 cmaps = f"{cmaps}* {keya}\n"
@@ -197,20 +198,35 @@ async def on_message(message):
             await message.channel.send(f"{nameprof[1]} profile successfully created.")
             return
         
-        if message.content.startswith(f"{const.bot_prefix}spyfall profile change "):
+        if message.content.startswith(f"{const.bot_prefix}spyfall profile switch "):
             spyfall = process_dictionary[message.guild]
             try:
-                nameprof = userMessage.split("profile change ")
+                nameprof = userMessage.split("profile switch ")
                 spyfall.changeprofile(nameprof[1])
                 await message.channel.send(f"Successfully switched to {nameprof[1]}.")
             except:
                 await message.channel.send(f"Profile does not exist.")
             return
-
-    if message.content == f"{const.bot_prefix}test":
-            embed = discord.Embed(title="Test photo", description=f"https://tenor.com/view/baka-anime-gif-22001672", color=discord.Color.blue())
+        
+        if message.content.startswith(f"{const.bot_prefix}spyfall profile list"):
+            spyfall = process_dictionary[message.guild]
+            profile_list = spyfall.showprofile()
+            embed = discord.Embed(title="Profiles List / SpyFall", description=f"Here are the profiles for the server {message.guild}.", color=discord.Color.blue())
+            a : str = ""
+            for i in profile_list:
+                a = f"{a}\n{i}"
+            embed.add_field(name="Profiles:", value=a, inline=False)
             await message.channel.send(embed = embed)
-            await message.channel.send('https://tenor.com/view/baka-anime-gif-22001672')
+            return
+        
+        if message.content.startswith(f"{const.bot_prefix}spyfall profile delete "):
+            spyfall = process_dictionary[message.guild]
+            try:
+                nameprof = userMessage.split("profile delete ")
+                spyfall.deleteprofile(nameprof[1])
+                await message.channel.send(f"Successfully deleted profile: {nameprof[1]}.")
+            except:
+                await message.channel.send(f"Profile does not exist.")
             return
     
 @client.event

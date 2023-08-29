@@ -33,7 +33,7 @@ class spyFall:
 
     #Todo PROFILE MANIPULATION
     
-    def changeprofile(self, name) -> bool:
+    def changeprofile(self, name : str) -> bool:
         self.update()
         self.config[self.discordserver.name] = [name]
         self.write_config()
@@ -52,10 +52,24 @@ class spyFall:
             return False
     
     def deleteprofile(self, name : str) -> bool:
-        return
+        if self.config[self.discordserver.name] == [name]:
+            return False
+        
+        if not self.config[self.discordserver.name] == [name]:
+            absolute_path = os.path.abspath(__file__)
+            removethis = os.path.join(os.path.dirname(absolute_path), f"../data/spy_fall/{self.discordserver}/{name}.json")
+            try:
+                os.remove(removethis)
+                return True
+            except:
+                return False
     
     def showprofile(self) -> list:
-        return
+        temp = os.listdir(self.guild_save_path)
+        profile_list : list = []
+        for i in temp:
+            profile_list.append(i.split(".")[0])
+        return profile_list
     
     #READ AND WRITE DATA
 
