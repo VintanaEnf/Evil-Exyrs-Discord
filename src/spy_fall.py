@@ -44,8 +44,8 @@ class spyFall:
     def newprofile(self, name : str) -> bool:
         try:
             absolute_path = os.path.abspath(__file__)
-            self.guild_save_path = os.path.join(os.path.dirname(absolute_path), f"../data/spy_fall/{self.discordserver}/{name}.json")
-            with open(self.guild_save_path, "w") as json_file:
+            newprofle = os.path.join(os.path.dirname(absolute_path), f"../data/spy_fall/{self.discordserver}/{name}.json")
+            with open(newprofle, "w") as json_file:
                 json_file.write(json.dumps(self.default, indent=4))
             return True
         except:
