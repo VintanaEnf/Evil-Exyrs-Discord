@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 import const
 
-class helpme(commands.Cog):
+class helpcog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         print("module successfully imported.")
