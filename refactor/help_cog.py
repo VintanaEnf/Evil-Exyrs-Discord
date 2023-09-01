@@ -1,11 +1,15 @@
 import discord
 from discord.ext import commands
-from .. import const
+import const
 
-class help(commands.Cog):
+class helpme(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         print("module successfully imported.")
+
+    @commands.Cog.listener()
+    async def on_ready(self):
+        await self.bot.change_presence(activity=discord.Game("%help for instructions!"))
 
     @commands.command()
     async def help(self, ctx):

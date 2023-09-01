@@ -139,7 +139,7 @@ async def on_message(message):
                     embed2.add_field(name=f"MAP:", value=f"||```{spyfall.getmap(role)}```||", inline=False)
                     embed2.add_field(name=f"ROLE:", value=f"||```{role}```||", inline=False)
                     await message.channel.send(embed = embed2)
-            await message.channel.send("Timer starts now.")
+            await message.channel.send("The 5 minutes timer starts now.")
             await asyncio.sleep(5*60)
             await message.channel.send("Your time of 5 minutes is now finished, guess who the spy is.")
             await message.channel.send("**%spyfall reveal** to reveal the spy.")
