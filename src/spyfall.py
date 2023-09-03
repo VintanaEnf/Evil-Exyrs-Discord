@@ -24,14 +24,12 @@ class spyFall:
         return self.players
     
 
-    ## update will: UPDATE the profile.
     def update(self):
         absolute_path = os.path.abspath(__file__)
         self.read_config()
         self.profile = self.config[self.discordserver.name]
         self.current_profile_dir = os.path.join(os.path.dirname(absolute_path), f"../data/spy_fall/{self.discordserver}/{self.profile[0]}.json")
 
-    #Todo PROFILE MANIPULATION
     
     def changeprofile(self, name : str) -> bool:
         self.update()

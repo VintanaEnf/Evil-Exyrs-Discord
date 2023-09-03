@@ -18,10 +18,6 @@ class helpcog(commands.Cog):
         self.bot = bot
         print("help cog successfully imported.")
 
-    @commands.Cog.listener()
-    async def on_ready(self):
-        await self.bot.change_presence(activity=discord.Game("%help for instructions!"))
-
     @commands.command()
     async def help(self, ctx):
         embed = discord.Embed(title="Evil Exyrs / Help", description="These are the commands available for this bot." 

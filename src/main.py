@@ -22,14 +22,17 @@ import keys
 # DISCORD_INVITE = Contains the invite link of my Discord Bot.
 # ------------------------------------------------------------------
 
-bot = commands.Bot(command_prefix='!',help_command=None, intents=discord.Intents.all())
+bot = commands.Bot(command_prefix='%',help_command=None, intents=discord.Intents.all())
 
 
 #This will run when the bot begins.
 print("The bot is NOW starting, please wait...")
 @bot.event
 async def on_ready():
+    print(discord.__version__)
     print('logged in as {0.user}'.format(bot))
+    await bot.change_presence(activity=discord.Game(name="%help for instructions!"))
+    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=" you suffer. (%help)"))
     await bot.add_cog(helpcog(bot))
     await bot.add_cog(spyfallcog(bot))
 
