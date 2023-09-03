@@ -5,8 +5,8 @@ bot_prefix = '%'
 
 # bot features can be disabled or enabled here:
 
-feature_bard = True
-feature_spyfall = True
+feature_bard = False
+feature_spyfall = False
 feature_textblob = False
-feature_math = True
+feature_math = False
 # bard also includes the latex command.
