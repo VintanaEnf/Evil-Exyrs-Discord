@@ -1,8 +1,5 @@
 # Evil Exyrs Discord
  The source code for my Evil Exyrs Discord Bot. This project is mainly for fun.
-## Issues
-   * Timer doesn't automatically stop after revealing the spy.
-   * Refactoring code to have cogs instead of discord.Client().
 ## Features
 Play SpyFall with your friends; Here is how to get started:
    * ```%spy game``` - creates a new game of spyfall in your server.
