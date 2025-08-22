@@ -25,5 +25,5 @@ The bot supports multiple map profiles; You can categorize your collection of pl
    *  ```%spy pflist``` - lists the profiles in the server.
    *  ```%spy pfdel mapcollection``` - deletes the new profile.
 ## Screenshots
-![image](https://github.com/VintanaEnf/Evil-Exyrs-Discord/assets/104513214/deaf26db-87c0-4bda-9000-21849300d1c9)
+<!---![image](https://github.com/VintanaEnf/Evil-Exyrs-Discord/assets/104513214/deaf26db-87c0-4bda-9000-21849300d1c9)-->
 ![image](https://github.com/VintanaEnf/Evil-Exyrs-Discord/assets/104513214/7fbcfa5f-8749-43ec-a16f-42ffcfa30396)
